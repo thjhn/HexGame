@@ -1,0 +1,59 @@
+# depslib dependency file v1.0
+1480884988 source:/home/thomas/github/HexGame/main.cpp
+	"hexengine.h"
+	"hexgui.h"
+	<iostream>
+
+1480889975 source:/home/thomas/github/HexGame/hexfield.cpp
+	"hexfield.h"
+	<iostream>
+
+1480889982 /home/thomas/github/HexGame/hexfield.h
+	<vector>
+
+1480863126 source:/home/thomas/github/HexGame/hexsuperfield.cpp
+	"hexsuperfield.h"
+
+1480863126 /home/thomas/github/HexGame/hexsuperfield.h
+
+1480889956 source:/home/thomas/github/HexGame/hexengine.cpp
+	"hexengine.h"
+	"hexfield.h"
+	<queue>
+	<set>
+
+1480889959 /home/thomas/github/HexGame/hexengine.h
+	"hexplayer.h"
+	"hexfield.h"
+	<vector>
+
+1480890019 source:/home/thomas/github/HexGame/hexgui.cpp
+	"hexgui.h"
+	"hexengine.h"
+	"hexmove.h"
+	<string>
+	<iostream>
+	<vector>
+
+1480890060 /home/thomas/github/HexGame/hexgui.h
+	"hexplayer.h"
+	"hexmove.h"
+	"hexengine.h"
+	<string>
+
+1480889734 /home/thomas/github/HexGame/hexmove.h
+
+1480889855 source:/home/thomas/github/HexGame/hexmove.cpp
+	"hexmove.h"
+
+1480884476 source:/home/thomas/github/HexGame/hexplayer.cpp
+	"hexplayer.h"
+	"hexengine.h"
+	"hexmove.h"
+	<string>
+	<iostream>
+	<vector>
+
+1480889394 /home/thomas/github/HexGame/hexplayer.h
+	"hexmove.h"
+
