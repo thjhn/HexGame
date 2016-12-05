@@ -41,9 +41,9 @@
 	"hexengine.h"
 	<string>
 
-1480889734 /home/thomas/github/HexGame/hexmove.h
+1480890093 /home/thomas/github/HexGame/hexmove.h
 
-1480889855 source:/home/thomas/github/HexGame/hexmove.cpp
+1480890089 source:/home/thomas/github/HexGame/hexmove.cpp
 	"hexmove.h"
 
 1480884476 source:/home/thomas/github/HexGame/hexplayer.cpp
@@ -54,6 +54,15 @@
 	<iostream>
 	<vector>
 
-1480889394 /home/thomas/github/HexGame/hexplayer.h
+1480890125 /home/thomas/github/HexGame/hexplayer.h
 	"hexmove.h"
+
+1480941182 source:/home/thomas/github/HexGame/hexrandomplayer.cpp
+	"hexrandomplayer.h"
+	<cstdlib>
+	<ctime>
+
+1480940990 /home/thomas/github/HexGame/hexrandomplayer.h
+	"hexplayer.h"
+	"hexengine.h"
 

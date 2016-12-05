@@ -42,8 +42,6 @@
 		<Unit filename="hexmove.h" />
 		<Unit filename="hexplayer.cpp" />
 		<Unit filename="hexplayer.h" />
-		<Unit filename="hexsuperfield.cpp" />
-		<Unit filename="hexsuperfield.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
