@@ -4,7 +4,9 @@
 #include "hexplayer.h"
 #include "hexengine.h"
 
-
+/**
+ * Implement a hex player that plays randomly.
+ */
 class hexrandomplayer : public hexplayer
 {
     public:
