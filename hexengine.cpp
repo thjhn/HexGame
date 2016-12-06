@@ -234,7 +234,7 @@ void hexengine::startGame(hexplayer* red, hexplayer* blue){
     while((gameState = this->gameState()) == 0){
         if(this->whoseTurn == 1){
             // ask the red player to move
-            while(this->play( red->takeAction(false) ) < 0){} // ask for a action until we get a valid one!
+            this->play( red->takeAction(false) ); // ask for a action
         }else{
             // ask the blue player to move
             if(firstMove){
@@ -246,10 +246,12 @@ void hexengine::startGame(hexplayer* red, hexplayer* blue){
                     red = blue;
                     blue = tmp;
                 }else{
+
                     this->play(blue_move);
+
                 }
                 firstMove = false;
-            }else while(this->play( blue->takeAction(firstMove) ) < 0){} // ask for a action until we get a valid one!
+            }else this->play( blue->takeAction(firstMove) ); // ask for a action
         }
     }
 

@@ -68,6 +68,7 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
 	":hexengine",
+	":hexrandomplayer",
 	":hexgui",
 	":hexlearner",
     ]

@@ -47,7 +47,6 @@ hexlearner::hexlearner(hexengine* eng, int color):eng(eng),myColor(color),reward
         std::cout << "EXIT." <<std::endl;
         // error! should stop here
     }
-
 }
 
 float hexlearner::evaluateAction(hexmove* action){
@@ -79,8 +78,11 @@ float hexlearner::evaluateAction(hexmove* action){
     }
 
     TTypes<float>::Matrix output_c = outputs[0].matrix<float>();
+
     return output_c(0,0);
 }
+
+
 hexmove* hexlearner::findBestAction(std::vector<hexmove>* actions){
     float bestValueSoFar = -100.0;
     hexmove* bestActionSoFar = 0;
@@ -94,7 +96,6 @@ hexmove* hexlearner::findBestAction(std::vector<hexmove>* actions){
         }
 
     }
-
     return bestActionSoFar;
 }
 
@@ -138,6 +139,7 @@ void hexlearner::lost()
     train(-1);
 }
 
+
 void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, std::vector<hexmove>* actions, TTypes<float>::Matrix& matrix)
 {
     for(int i=0; i < actions->size(); i++){
@@ -163,6 +165,11 @@ void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, st
     }
 }
 
+/**
+ * Use the stored sequence to train the model.
+ * 
+ * @param reward is 1 or -1, depending on a win or a loss
+ */
 int hexlearner::train(int reward){
   // Setup inputs and outputs:
   Tensor inp(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 103 }));
@@ -176,7 +183,7 @@ int hexlearner::train(int reward){
       rew_matrix(i,0) = reward;
       reward = reward * this->rewardDecay;
   }
-  
+
   std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
     { "inp", inp },
     { "rew", rew },
@@ -185,14 +192,19 @@ int hexlearner::train(int reward){
   // The session will initialize the outputs
   std::vector<tensorflow::Tensor> outputs;
 
-
-
-  this->status = this->session->Run(inputs, {}, {"train"}, &outputs);
+  this->status = this->session->Run(inputs, {"loss"}, {"train"}, &outputs);
   if (!this->status.ok()) {
     std::cout << this->status.ToString() << "\n";
     std::cout << "EXIT." <<std::endl;
     return 1;
   }
+
+  TTypes<float>::Scalar output = outputs[0].scalar<float>();
+  std::cout << output << std::endl;
+
+  // Delete the history of this game
+  this->actionsTaken.clear();
+  this->statesSeen.clear();
 
   return 0;
 }
@@ -200,4 +212,6 @@ int hexlearner::train(int reward){
 /**
  * Inform the player that the opponent has applied the pie rule.
  */
-void hexlearner::pie(){}
+void hexlearner::pie(){
+    this->myColor = (this->myColor%2)+1;
+}
