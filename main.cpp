@@ -18,8 +18,6 @@ int main()
       eng.startGame(&player_trainer, &player_blue);
     }
     eng.startGame(&player_red, &player_blue);
-    eng.startGame(&player_red, &player_blue);
-    eng.startGame(&player_red, &player_blue);
 
     return 0;
 }

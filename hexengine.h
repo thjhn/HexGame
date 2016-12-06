@@ -34,6 +34,7 @@ class hexengine
         hexfield border_right;
         hexfield border_top;
         hexfield border_bottom;
+        void restartGame();
         void linkFields(hexfield* field1, hexfield* field2);
         bool fieldsAreConnected(hexfield*, hexfield*, int);
         int gameState();

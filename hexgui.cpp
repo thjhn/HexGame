@@ -51,15 +51,16 @@ void hexgui::drawBoard()
     int counter = 0;
     int line = 0;
     for( std::vector<short>::iterator it = b.begin(); it != b.end(); it++){
+        if(counter++ % boardsize == 0){
+          std::cout << std::endl;
+          for(int i = 3 + line++; i> 0; i--) std::cout << " ";
+        }
         if(*it == 0) std::cout << ".";
         if(*it == 1) std::cout << "x";
         if(*it == 2) std::cout << "o";
         std::cout << " ";
-        if(++counter % boardsize == 0){
-          std::cout << std::endl;
-          if(++line % 2 == 1) std::cout << " ";
-        }
     }
+    std::cout << std::endl;
 }
 
 /**

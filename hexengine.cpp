@@ -3,6 +3,8 @@
 #include <queue>
 #include <set>
 
+#include <iostream>
+
 /**
  * The constructor sets up a game of hex with size*size fields.
  */
@@ -48,6 +50,13 @@ hexengine::hexengine(int size):boardsize(size),whoseTurn(1)
             linkFields(&(this->board[i]), &border_right);
         }
     }
+}
+
+void hexengine::restartGame(){
+    for(std::vector<hexfield>::iterator it = this->board.begin(); it != this->board.end(); it++){
+        it->resetColor();
+    }
+    this->whoseTurn=1;
 }
 
 /**
@@ -219,6 +228,7 @@ int hexengine::gameState()
  * @return the current game state
  */
 void hexengine::startGame(hexplayer* red, hexplayer* blue){
+    this->restartGame();
     int gameState;
     bool firstMove = true; // for the pie rule
     while((gameState = this->gameState()) == 0){

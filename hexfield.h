@@ -14,6 +14,7 @@ class hexfield
         int setColor(int);
         int getColor();
         void addNeighbour(hexfield*);
+        void resetColor();
         std::vector<hexfield*> getNeighbours();
     protected:
     private:
