@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1480884988 source:/home/thomas/github/HexGame/main.cpp
+1481045088 source:/home/thomas/github/HexGame/main.cpp
 	"hexengine.h"
 	"hexgui.h"
+	"hexrandomplayer.h"
 	<iostream>
 
 1480889975 source:/home/thomas/github/HexGame/hexfield.cpp
@@ -16,18 +17,18 @@
 
 1480863126 /home/thomas/github/HexGame/hexsuperfield.h
 
-1480889956 source:/home/thomas/github/HexGame/hexengine.cpp
+1481043674 source:/home/thomas/github/HexGame/hexengine.cpp
 	"hexengine.h"
 	"hexfield.h"
 	<queue>
 	<set>
 
-1480889959 /home/thomas/github/HexGame/hexengine.h
+1481043674 /home/thomas/github/HexGame/hexengine.h
 	"hexplayer.h"
 	"hexfield.h"
 	<vector>
 
-1480890019 source:/home/thomas/github/HexGame/hexgui.cpp
+1481044862 source:/home/thomas/github/HexGame/hexgui.cpp
 	"hexgui.h"
 	"hexengine.h"
 	"hexmove.h"
@@ -41,9 +42,9 @@
 	"hexengine.h"
 	<string>
 
-1480890093 /home/thomas/github/HexGame/hexmove.h
+1481043726 /home/thomas/github/HexGame/hexmove.h
 
-1480890089 source:/home/thomas/github/HexGame/hexmove.cpp
+1481043726 source:/home/thomas/github/HexGame/hexmove.cpp
 	"hexmove.h"
 
 1480884476 source:/home/thomas/github/HexGame/hexplayer.cpp
@@ -62,7 +63,7 @@
 	<cstdlib>
 	<ctime>
 
-1480940990 /home/thomas/github/HexGame/hexrandomplayer.h
+1480942128 /home/thomas/github/HexGame/hexrandomplayer.h
 	"hexplayer.h"
 	"hexengine.h"
 
