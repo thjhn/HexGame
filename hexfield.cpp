@@ -22,6 +22,14 @@ int hexfield::setColor(int color)
 }
 
 /**
+ * Reset the field to empty.
+ */
+void hexfield::resetColor()
+{
+    this->color = 0;
+}
+
+/**
  * Get the color of the field.
  *
  * @return the color 0 (empty), 1 (red), 2 (blue)

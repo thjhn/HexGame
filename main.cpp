@@ -13,6 +13,7 @@ int main()
     hexgui player_blue = hexgui("Blue", &eng);
    // hexrandomplayer player_blue = hexrandomplayer(&eng);
     eng.startGame(&player_red, &player_blue);
+    eng.startGame(&player_red, &player_blue);
 
     return 0;
 }

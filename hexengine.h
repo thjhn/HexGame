@@ -35,6 +35,7 @@ class hexengine
         inline int i2x(int);
         inline int i2y(int);
         inline int xy2i(int, int);
+        void restartGame();
         void linkFields(hexfield* field1, hexfield* field2);
         bool fieldsAreConnected(hexfield*, hexfield*, int);
         int gameState();
