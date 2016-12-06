@@ -19,8 +19,8 @@ hexengine::hexengine(int size):boardsize(size),whoseTurn(1)
 
 
     for(int i = 0; i<size*size; i++){  // link fields
-        int x = i2x(i);
-        int y = i2y(i);
+        int x = this->i2x(i);
+        int y = this->i2y(i);
 
         if(y > 0){ // connect to previous row
             int up = xy2i(x,y-1);
