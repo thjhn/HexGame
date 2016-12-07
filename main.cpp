@@ -13,9 +13,8 @@ int main()
     hexgui player_red = hexgui("Red", &eng);
     //hexgui player_blue = hexgui("Blue", &eng);
     hexlearner player_trainer = hexlearner(&eng,1);
-//    hexlearner player_blue = hexlearner(&eng,2);
+    hexlearner player_blue = hexlearner(&eng,2);
 
-hexrandomplayer player_blue = hexrandomplayer(&eng);
 
     for(int i = 0; i < 1000; i++){
       cout << i <<":  ";
