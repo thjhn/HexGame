@@ -205,7 +205,6 @@ void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, st
 /**
  * Use the stored sequence to train the model.
  * 
- * @param reward is 1 or -1, depending on a win or a loss
  */
 int hexlearner::train(int reward){
     // Setup inputs and outputs:
@@ -232,12 +231,12 @@ int hexlearner::train(int reward){
     this->status = this->session->Run(inputs, {"loss"}, {"train"}, &outputs);
     if (!this->status.ok()) {
         std::cout << this->status.ToString() << "\n";
-        std::cout << "EXIT." <<std::endl;
         return 1;
     }
 
     TTypes<float>::Scalar output = outputs[0].scalar<float>();
-    std::cout << output << std::endl;
+    // output contains the current loss; we should log it somehow...
+    //std::cout << output << std::endl;
 
     // Delete the history of this game
     this->actionsTaken.clear();
