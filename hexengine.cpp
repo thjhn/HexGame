@@ -210,7 +210,7 @@ bool hexengine::fieldsAreConnected(hexfield* src, hexfield* dest, int color)
  *
  * @return the current game state
  */
-int hexengine::gameState()
+short hexengine::gameState()
 {
     if(this->fieldsAreConnected(&(this->border_left), &(this->border_right),1)) // red wins
         return 1;
@@ -225,9 +225,9 @@ int hexengine::gameState()
  * @param red the player of the red pieces.
  * @param blue the player of the blue pieces.
  *
- * @return the current game state
+ * @return the winner of the game
  */
-void hexengine::startGame(hexplayer* red, hexplayer* blue){
+short hexengine::startGame(hexplayer* red, hexplayer* blue){
     this->restartGame();
     int gameState;
     bool firstMove = true; // for the pie rule
@@ -262,4 +262,5 @@ void hexengine::startGame(hexplayer* red, hexplayer* blue){
         blue->won();
         red->lost();
     }
+    return gameState;
 }
