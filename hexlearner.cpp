@@ -5,16 +5,26 @@
 #include "tensorflow/core/platform/env.h"
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 
 using namespace tensorflow;
 
 /**
  * Construct this player.
  *
+ * The implementation of tensorflow was mainly inspired by the blogpost https://medium.com/jim-fleming/loading-a-tensorflow-graph-with-the-c-api-4caaff88463f#.oe7w6x7at
+ *
  * @param eng a hexgame engine
+ * @param color the color with wich this player starts
+ * @param epsilon the epsilon in epsilon-greedy
  */
-hexlearner::hexlearner(hexengine* eng, int color):eng(eng),myColor(color),rewardDecay(0.9),actionsTaken(),statesSeen()
+hexlearner::hexlearner(hexengine* eng, int color, float alpha):eng(eng),myColor(color),rewardDecay(0.9),epsilon(epsilon),actionsTaken(),statesSeen()
 {
+    // init random gen
+    srand (time(NULL));
+
     // Initialize a tensorflow session
     this->status = NewSession(SessionOptions(), &(this->session));
     if (!this->status.ok()) {
@@ -49,6 +59,13 @@ hexlearner::hexlearner(hexengine* eng, int color):eng(eng),myColor(color),reward
     }
 }
 
+/**
+ * Compute the value of the state action pair of the current state
+ * and a given action using the neural net.
+ *
+ * @param action the action to be evaluated.
+ * @return computed value
+ */
 float hexlearner::evaluateAction(hexmove* action){
     // createInputMatrix needs vectors of states and vectors of actions.
     // we create vectors containing exactly one element...
@@ -83,6 +100,12 @@ float hexlearner::evaluateAction(hexmove* action){
 }
 
 
+/**
+ * Iterate over a vector of actions and return the one with the best value.
+ *
+ * @param actions Pointer to a vector of actions.
+ * @return pointer to the best action.
+ */
 hexmove* hexlearner::findBestAction(std::vector<hexmove>* actions){
     float bestValueSoFar = -100.0;
     hexmove* bestActionSoFar = 0;
@@ -99,6 +122,7 @@ hexmove* hexlearner::findBestAction(std::vector<hexmove>* actions){
     return bestActionSoFar;
 }
 
+
 /**
  * ask for the next action
  *
@@ -109,8 +133,8 @@ hexmove hexlearner::takeAction(bool pieAllowed){
     std::vector<short> board = eng->getBoard();
     this->statesSeen.push_back(board);
 
+    // collect all actions that we currently could take
     std::vector<hexmove> possibleActions;
-
     for(int i = 0; i < (eng->getBoardSize()*eng->getBoardSize()); i++){
         if(board[i] == 0){ // empty field
             possibleActions.push_back(hexmove(eng->i2x(i),eng->i2y(i)));
@@ -118,9 +142,15 @@ hexmove hexlearner::takeAction(bool pieAllowed){
     }
     if(pieAllowed) possibleActions.push_back(hexmove());
 
-    hexmove* bestAction = this->findBestAction(&possibleActions);
-    this->actionsTaken.push_back(hexmove(bestAction));
-    return *bestAction;
+    // using the collected actions we follow a epsilon-greedy policy based on the
+    // the values from the current neural net
+    if(static_cast<float>(std::rand())/RAND_MAX < this->epsilon){ // take some random action
+	return possibleActions[std::rand()%possibleActions.size()];
+    }else{ // take the optimal action
+        hexmove* bestAction = this->findBestAction(&possibleActions);
+        this->actionsTaken.push_back(hexmove(bestAction));
+        return *bestAction;
+    }
 }
 
 /**
@@ -140,6 +170,13 @@ void hexlearner::lost()
 }
 
 
+/**
+ * Create the matrix for tensorflow based on the given states and actions.
+ *
+ * @param states A pointer to a vector of states.
+ * @param actions A pointer to a vector of actions. The action at index i corresponds to the state at index i.
+ * @param matrix The matrix to be filled.
+ */
 void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, std::vector<hexmove>* actions, TTypes<float>::Matrix& matrix)
 {
     for(int i=0; i < actions->size(); i++){
@@ -171,43 +208,44 @@ void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, st
  * @param reward is 1 or -1, depending on a win or a loss
  */
 int hexlearner::train(int reward){
-  // Setup inputs and outputs:
-  Tensor inp(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 103 }));
-  auto inp_matrix = inp.tensor<float,2>();
-  this->createInputMatrix(&(this->statesSeen), &(this->actionsTaken), inp_matrix);
+    // Setup inputs and outputs:
+    Tensor inp(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 103 }));
+    auto inp_matrix = inp.tensor<float,2>();
+    this->createInputMatrix(&(this->statesSeen), &(this->actionsTaken), inp_matrix);
 
-  int value = reward;
-  Tensor rew(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 1 }));
-  auto rew_matrix = rew.tensor<float,2>();
-  for(int i = this->actionsTaken.size()-1; i>=0; i--){
-      rew_matrix(i,0) = reward;
-      reward = reward * this->rewardDecay;
-  }
+    int value = reward;
+    Tensor rew(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 1 }));
+    auto rew_matrix = rew.tensor<float,2>();
+    for(int i = this->actionsTaken.size()-1; i>=0; i--){
+        rew_matrix(i,0) = reward;
+        reward = reward * this->rewardDecay;
+    }
 
-  std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
-    { "inp", inp },
-    { "rew", rew },
-  };
+    std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
+        { "inp", inp },
+        { "rew", rew },
+    };
 
-  // The session will initialize the outputs
-  std::vector<tensorflow::Tensor> outputs;
+    // The session will initialize the outputs
+    std::vector<tensorflow::Tensor> outputs;
 
-  this->status = this->session->Run(inputs, {"loss"}, {"train"}, &outputs);
-  if (!this->status.ok()) {
-    std::cout << this->status.ToString() << "\n";
-    std::cout << "EXIT." <<std::endl;
-    return 1;
-  }
+    this->status = this->session->Run(inputs, {"loss"}, {"train"}, &outputs);
+    if (!this->status.ok()) {
+        std::cout << this->status.ToString() << "\n";
+        std::cout << "EXIT." <<std::endl;
+        return 1;
+    }
 
-  TTypes<float>::Scalar output = outputs[0].scalar<float>();
-  std::cout << output << std::endl;
+    TTypes<float>::Scalar output = outputs[0].scalar<float>();
+    std::cout << output << std::endl;
 
-  // Delete the history of this game
-  this->actionsTaken.clear();
-  this->statesSeen.clear();
+    // Delete the history of this game
+    this->actionsTaken.clear();
+    this->statesSeen.clear();
 
-  return 0;
+    return 0;
 }
+
 
 /**
  * Inform the player that the opponent has applied the pie rule.
