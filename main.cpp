@@ -11,15 +11,30 @@ int main()
 {
     hexengine eng = hexengine(5);
     hexgui player_red = hexgui("Red", &eng);
-    //hexgui player_blue = hexgui("Blue", &eng);
-    hexlearner player_trainer = hexlearner(&eng,1);
-    hexlearner player_blue = hexlearner(&eng,2);
+    hexlearner player_trainer = hexlearner(&eng,1,0.0);
+    hexrandomplayer player_tester = hexrandomplayer(&eng);
+    hexlearner player_blue = hexlearner(&eng,2,0.0);
 
 
-    for(int i = 0; i < 1000; i++){
-      cout << i <<":  ";
-      eng.startGame(&player_trainer, &player_blue);
+    cout << "Started training..." << endl;
+    for(int i = 0; i < 5000; i++){
+        if(i%10 ==0){
+            cout << "at training game "<< i << endl;
+        }
+        eng.startGame(&player_trainer, &player_blue);
     }
+
+    cout << "Started evaluation..." << endl;
+    int wins = 0;
+    const int testgames = 50;
+    for(int i = 0; i < testgames; i++){
+        if(eng.startGame(&player_tester, &player_blue) == 2){
+          wins++;
+        }
+    }
+
+    cout << "Won " << wins << " (" << static_cast<float>(wins)*100.0/testgames << "%) games." << endl;    
+
     eng.startGame(&player_red, &player_blue);
 
     return 0;
