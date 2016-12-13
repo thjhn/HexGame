@@ -18,9 +18,9 @@ using namespace tensorflow;
  *
  * @param eng a hexgame engine
  * @param color the color with wich this player starts
- * @param epsilon the epsilon in epsilon-greedy
+ * @param greedy the epsilon in epsilon-greedy
  */
-hexlearner::hexlearner(hexengine* eng, int color, float alpha):eng(eng),myColor(color),rewardDecay(0.9),epsilon(epsilon),actionsTaken(),statesSeen()
+hexlearner::hexlearner(hexengine* eng, int color, float greedy):eng(eng),myColor(color),rewardDecay(0.9),greedy(greedy),actionsTaken(),statesSeen()
 {
     // init random gen
     srand (time(NULL));
@@ -251,4 +251,13 @@ int hexlearner::train(int reward){
  */
 void hexlearner::pie(){
     this->myColor = (this->myColor%2)+1;
+}
+
+/**
+ * Change the greedy-probability.
+ *
+ * @param greedy new greedy probability. Assumed to be in [0.0,1.0].
+ */
+void resetGreedy(float greedy){
+    this->greedy = greedy;
 }

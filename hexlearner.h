@@ -22,6 +22,7 @@ class hexlearner : public hexplayer
         void won();
         void lost();
         void pie();
+	void resetGreedy(float);
     protected:
     private:
         hexengine* eng;
@@ -29,7 +30,7 @@ class hexlearner : public hexplayer
         float evaluateAction(hexmove* action);
         hexmove* findBestAction(std::vector<hexmove>*);
         const float rewardDecay;
-        float epsilon;
+        float greedy;
         std::vector<hexmove> actionsTaken;
         std::vector< std::vector<short> > statesSeen;
 	tensorflow::Session* session;
