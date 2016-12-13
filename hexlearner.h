@@ -9,6 +9,7 @@
 #include "tensorflow/core/platform/env.h"
 
 #include <vector>
+#include <string>
 
 
 /**
@@ -17,7 +18,7 @@
 class hexlearner : public hexplayer
 {
     public:
-        hexlearner(hexengine*,int,float);
+        hexlearner(hexengine*,int,float,std::string);
         hexmove takeAction(bool);
         void won();
         void lost();
@@ -27,14 +28,16 @@ class hexlearner : public hexplayer
     private:
         hexengine* eng;
 	short myColor;
-        float evaluateAction(hexmove* action);
-        hexmove* findBestAction(std::vector<hexmove>*);
         const float rewardDecay;
         float greedy;
+	const std::string modelFile;
         std::vector<hexmove> actionsTaken;
         std::vector< std::vector<short> > statesSeen;
 	tensorflow::Session* session;
 	tensorflow::Status status;
+
+        float evaluateAction(hexmove* action);
+        hexmove* findBestAction(std::vector<hexmove>*);
         int train(int);
         void createInputMatrix(std::vector< std::vector<short> >*, std::vector<hexmove>*, tensorflow::TTypes<float>::Matrix&);
 };

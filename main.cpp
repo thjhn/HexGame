@@ -11,18 +11,20 @@ int main()
 {
     hexengine eng = hexengine(5);
     hexgui player_red = hexgui("Red", &eng);
-    hexlearner player_trainer = hexlearner(&eng,1,0.0);
+    hexlearner player_trainer = hexlearner(&eng,1,0.9,"models/graph.pb");
     hexrandomplayer player_tester = hexrandomplayer(&eng);
-    hexlearner player_blue = hexlearner(&eng,2,0.0);
+    hexlearner player_blue = hexlearner(&eng,2,0.9,"models/graph.pb");
 
 
     cout << "Started training..." << endl;
-    for(int i = 0; i < 5000; i++){
+    for(int i = 0; i < 50; i++){
         if(i%10 ==0){
             cout << "at training game "<< i << endl;
         }
         eng.startGame(&player_trainer, &player_blue);
     }
+
+    player_blue.resetGreedy(1.0); // for evaluation we don't want to take the best action.
 
     cout << "Started evaluation..." << endl;
     int wins = 0;

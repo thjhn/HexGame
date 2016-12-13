@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 
 using namespace tensorflow;
@@ -20,7 +21,7 @@ using namespace tensorflow;
  * @param color the color with wich this player starts
  * @param greedy the epsilon in epsilon-greedy
  */
-hexlearner::hexlearner(hexengine* eng, int color, float greedy):eng(eng),myColor(color),rewardDecay(0.9),greedy(greedy),actionsTaken(),statesSeen()
+hexlearner::hexlearner(hexengine* eng, int color, float greedy, std::string modelFile):eng(eng),myColor(color),rewardDecay(0.9),greedy(greedy),modelFile(modelFile),actionsTaken(),statesSeen()
 {
     // init random gen
     srand (time(NULL));
@@ -37,7 +38,7 @@ hexlearner::hexlearner(hexengine* eng, int color, float greedy):eng(eng),myColor
     // when using `bazel run` since the cwd isn't where you call
     // `bazel run` but from inside a temp folder.)
     GraphDef graph_def;
-    this->status = ReadBinaryProto(Env::Default(), "models/graph.pb", &graph_def);
+    this->status = ReadBinaryProto(Env::Default(), this->modelFile, &graph_def);
     if (!this->status.ok()) {
       std::cout << this->status.ToString() << "\n";
       // error! should stop here
@@ -258,6 +259,6 @@ void hexlearner::pie(){
  *
  * @param greedy new greedy probability. Assumed to be in [0.0,1.0].
  */
-void resetGreedy(float greedy){
+void hexlearner::resetGreedy(float greedy){
     this->greedy = greedy;
 }
