@@ -150,6 +150,9 @@ hexmove hexlearner::takeAction(bool pieAllowed){
     }else{ // take the optimal action
         hexmove* bestAction = this->findBestAction(&possibleActions);
         this->actionsTaken.push_back(hexmove(bestAction));
+	if(bestAction->getPie()){
+            this->pie(); // notify myself that I played pie action.
+	}
         return *bestAction;
     }
 }
