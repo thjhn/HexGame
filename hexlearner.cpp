@@ -144,7 +144,7 @@ hexmove hexlearner::takeAction(bool pieAllowed){
 
     // using the collected actions we follow a epsilon-greedy policy based on the
     // the values from the current neural net
-    if(static_cast<float>(std::rand())/RAND_MAX < this->epsilon){ // take some random action
+    if(static_cast<float>(std::rand())/RAND_MAX > this->greedy){ // take some random action
 	return possibleActions[std::rand()%possibleActions.size()];
     }else{ // take the optimal action
         hexmove* bestAction = this->findBestAction(&possibleActions);
