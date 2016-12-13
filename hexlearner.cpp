@@ -77,7 +77,7 @@ float hexlearner::evaluateAction(hexmove* action){
     vecState.push_back(this->eng->getBoard());
 
     // Setup inputs and outputs:
-    Tensor inp(DT_FLOAT, TensorShape({ 1, 103 }));
+    Tensor inp(DT_FLOAT, TensorShape({ 1, 88 }));
     auto inp_matrix = inp.tensor<float,2>();
     this->createInputMatrix(&vecState, &vecAction, inp_matrix);
   
@@ -185,7 +185,7 @@ void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, st
 {
     for(int i=0; i < actions->size(); i++){
         // initialize with zeros
-        for(int j=0; j<103; j++) matrix(i,j) = 0.0;
+        for(int j=0; j<88; j++) matrix(i,j) = 0.0;
       
         // the first dimensions represent the state
 	for(int j = 0; j < (*states)[i].size(); j++){
@@ -212,7 +212,7 @@ void hexlearner::createInputMatrix(std::vector< std::vector<short> >* states, st
  */
 int hexlearner::train(int reward){
     // Setup inputs and outputs:
-    Tensor inp(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 103 }));
+    Tensor inp(DT_FLOAT, TensorShape({ this->actionsTaken.size(), 88 }));
     auto inp_matrix = inp.tensor<float,2>();
     this->createInputMatrix(&(this->statesSeen), &(this->actionsTaken), inp_matrix);
 
