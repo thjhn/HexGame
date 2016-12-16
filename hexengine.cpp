@@ -21,8 +21,8 @@ hexengine::hexengine(int size):boardsize(size),whoseTurn(1)
 
 
     for(int i = 0; i<size*size; i++){  // link fields
-        int x = i2x(i);
-        int y = i2y(i);
+        int x = this->i2x(i);
+        int y = this->i2y(i);
 
         if(y > 0){ // connect to previous row
             int up = xy2i(x,y-1);
@@ -210,7 +210,7 @@ bool hexengine::fieldsAreConnected(hexfield* src, hexfield* dest, int color)
  *
  * @return the current game state
  */
-int hexengine::gameState()
+short hexengine::gameState()
 {
     if(this->fieldsAreConnected(&(this->border_left), &(this->border_right),1)) // red wins
         return 1;
@@ -225,16 +225,16 @@ int hexengine::gameState()
  * @param red the player of the red pieces.
  * @param blue the player of the blue pieces.
  *
- * @return the current game state
+ * @return the winner of the game
  */
-void hexengine::startGame(hexplayer* red, hexplayer* blue){
+short hexengine::startGame(hexplayer* red, hexplayer* blue){
     this->restartGame();
     int gameState;
     bool firstMove = true; // for the pie rule
     while((gameState = this->gameState()) == 0){
         if(this->whoseTurn == 1){
             // ask the red player to move
-            while(this->play( red->takeAction(false) ) < 0){} // ask for a action until we get a valid one!
+            this->play( red->takeAction(false) ); // ask for a action
         }else{
             // ask the blue player to move
             if(firstMove){
@@ -246,10 +246,12 @@ void hexengine::startGame(hexplayer* red, hexplayer* blue){
                     red = blue;
                     blue = tmp;
                 }else{
+
                     this->play(blue_move);
+
                 }
                 firstMove = false;
-            }else while(this->play( blue->takeAction(firstMove) ) < 0){} // ask for a action until we get a valid one!
+            }else this->play( blue->takeAction(firstMove) ); // ask for a action
         }
     }
 
@@ -260,4 +262,5 @@ void hexengine::startGame(hexplayer* red, hexplayer* blue){
         blue->won();
         red->lost();
     }
+    return gameState;
 }

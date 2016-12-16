@@ -21,7 +21,10 @@ class hexengine
         int getBoardSize();
         int play(int, int);
         int play(hexmove);
-        void startGame(hexplayer*, hexplayer*);
+        short startGame(hexplayer*, hexplayer*);
+        inline int i2x(int);
+        inline int i2y(int);
+        inline int xy2i(int, int);
     protected:
     private:
         const int boardsize;
@@ -31,14 +34,10 @@ class hexengine
         hexfield border_right;
         hexfield border_top;
         hexfield border_bottom;
-
-        inline int i2x(int);
-        inline int i2y(int);
-        inline int xy2i(int, int);
         void restartGame();
         void linkFields(hexfield* field1, hexfield* field2);
         bool fieldsAreConnected(hexfield*, hexfield*, int);
-        int gameState();
+        short gameState();
 };
 
 #endif // HEXENGINE_H
