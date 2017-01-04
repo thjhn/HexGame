@@ -15,6 +15,7 @@ class hexrandomplayer : public hexplayer
         void won();
         void lost();
         void pie();
+        void resetColor(short);
     protected:
     private:
         hexengine* eng;

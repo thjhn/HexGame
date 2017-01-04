@@ -16,6 +16,7 @@ class hexgui: virtual public hexplayer
         void won();
         void lost();
         void pie();
+        void resetColor(short);
     protected:
     private:
         const std::string playername;

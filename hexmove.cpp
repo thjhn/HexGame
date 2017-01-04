@@ -16,7 +16,17 @@ hexmove::hexmove():x(-1),y(-1),pie(true){}
 /**
  * Copy constructor
  */
-hexmove::hexmove(hexmove* other):x(other->Getx()),y(other->Getx()),pie(other->getPie()){}
+hexmove::hexmove(hexmove* other):x(other->Getx()),y(other->Gety()),pie(other->getPie()){}
+
+int hexmove::Getx(){
+    return this->x;
+}
+int hexmove::Gety(){
+    return this->y;
+}
+bool hexmove::getPie(){
+    return this->pie;
+}
 
 /**
  * Send hexmove to outstream.

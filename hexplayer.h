@@ -27,6 +27,10 @@ class hexplayer
          * inform the player that the opponent has applied the pie rule
          */
         virtual void pie() = 0;
+        /**
+         * reset the player's color
+         */
+        virtual void resetColor(short) = 0;
     protected:
     private:
 };

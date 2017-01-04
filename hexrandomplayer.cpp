@@ -54,3 +54,8 @@ void hexrandomplayer::lost()
  * does nothing.
  */
 void hexrandomplayer::pie(){}
+
+/**
+ * reset the color; i.e. do nothing
+ */
+void hexrandomplayer::resetColor(short color){}

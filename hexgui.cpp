@@ -85,3 +85,10 @@ void hexgui::lost()
 void hexgui::pie(){
     std::cout << playername << ", your opponent takes the pie rule." << std::endl;
 }
+
+
+/**
+ * reset the color; i.e. do nothing
+ */
+void hexgui::resetColor(short color){
+}

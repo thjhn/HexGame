@@ -14,9 +14,9 @@ class hexmove
         hexmove(int, int);
         hexmove();
         hexmove(hexmove*);
-        int Getx() { return x; }
-        int Gety() { return y; }
-        bool getPie() { return pie; }
+        int Getx();
+        int Gety();
+        bool getPie();
     protected:
     private:
         int x;

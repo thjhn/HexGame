@@ -228,6 +228,10 @@ short hexengine::gameState()
  * @return the winner of the game
  */
 short hexengine::startGame(hexplayer* red, hexplayer* blue){
+    red->resetColor(1);
+    blue->resetColor(2);
+
+    bool pieApplied=false;
     this->restartGame();
     int gameState;
     bool firstMove = true; // for the pie rule
@@ -240,6 +244,7 @@ short hexengine::startGame(hexplayer* red, hexplayer* blue){
             if(firstMove){
                 hexmove blue_move = blue->takeAction(true);
                 if(blue_move.getPie()){ // pie rule applied, swap players
+                    pieApplied = true;
                     red->pie();
                     // now, swap players
                     hexplayer* tmp = red;
@@ -262,5 +267,6 @@ short hexengine::startGame(hexplayer* red, hexplayer* blue){
         blue->won();
         red->lost();
     }
+    if(pieApplied) return gameState%2+1;
     return gameState;
 }

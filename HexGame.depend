@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1481896195 source:/home/thomas/github/HexGame/main.cpp
+1483523110 source:/home/thomas/github/HexGame/main.cpp
 	"hexengine.h"
 	"hexgui.h"
 	"hexrandomplayer.h"
+	"hexqlearn.h"
 	<iostream>
 
 1481047648 source:/home/thomas/github/HexGame/hexfield.cpp
@@ -17,7 +18,7 @@
 
 1480863126 /home/thomas/github/HexGame/hexsuperfield.h
 
-1481895743 source:/home/thomas/github/HexGame/hexengine.cpp
+1483520781 source:/home/thomas/github/HexGame/hexengine.cpp
 	"hexengine.h"
 	"hexfield.h"
 	<queue>
@@ -29,7 +30,7 @@
 	"hexfield.h"
 	<vector>
 
-1481047648 source:/home/thomas/github/HexGame/hexgui.cpp
+1483520870 source:/home/thomas/github/HexGame/hexgui.cpp
 	"hexgui.h"
 	"hexengine.h"
 	"hexmove.h"
@@ -37,16 +38,16 @@
 	<iostream>
 	<vector>
 
-1480890060 /home/thomas/github/HexGame/hexgui.h
+1483520888 /home/thomas/github/HexGame/hexgui.h
 	"hexplayer.h"
 	"hexmove.h"
 	"hexengine.h"
 	<string>
 
-1481895743 /home/thomas/github/HexGame/hexmove.h
+1483521201 /home/thomas/github/HexGame/hexmove.h
 	<iostream>
 
-1481895743 source:/home/thomas/github/HexGame/hexmove.cpp
+1483522570 source:/home/thomas/github/HexGame/hexmove.cpp
 	"hexmove.h"
 
 1481895743 source:/home/thomas/github/HexGame/hexplayer.cpp
@@ -56,15 +57,36 @@
 	<iostream>
 	<vector>
 
-1481021600 /home/thomas/github/HexGame/hexplayer.h
+1483520811 /home/thomas/github/HexGame/hexplayer.h
 	"hexmove.h"
 
-1480941182 source:/home/thomas/github/HexGame/hexrandomplayer.cpp
+1483520922 source:/home/thomas/github/HexGame/hexrandomplayer.cpp
 	"hexrandomplayer.h"
 	<cstdlib>
 	<ctime>
 
-1480942128 /home/thomas/github/HexGame/hexrandomplayer.h
+1483520943 /home/thomas/github/HexGame/hexrandomplayer.h
 	"hexplayer.h"
 	"hexengine.h"
+
+1483522897 source:/home/thomas/github/HexGame/hexqlearn.cpp
+	"hexqlearn.h"
+	"hexengine.h"
+	"hexmove.h"
+	<cstdlib>
+	<ctime>
+	<iostream>
+
+1483520608 /home/thomas/github/HexGame/hexqlearn.h
+	"hexplayer.h"
+	"hexengine.h"
+	"hexmove.h"
+	<map>
+
+1481897071 source:/home/thomas/github/HexGame/hexstateactionpair.cpp
+	"hexstateactionpair.h"
+
+1481897225 /home/thomas/github/HexGame/hexstateactionpair.h
+	"hexmove.h"
+	<vector>
 
