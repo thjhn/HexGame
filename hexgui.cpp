@@ -21,6 +21,9 @@ hexgui::hexgui(std::string playername, hexengine* eng):playername(playername),en
  * @return the selected action
  */
 hexmove hexgui::takeAction(bool pieAllowed){
+    int x,y;
+    std::cout << playername << ", it's your move." << std::endl;
+    this->drawBoard();
     if(pieAllowed){
         std::cout << "Would you like to take advantage of the pie rule? [y/n]: ";
         char pieAnswer;
@@ -29,9 +32,6 @@ hexmove hexgui::takeAction(bool pieAllowed){
             return hexmove();
         }
     }
-    int x,y;
-    std::cout << playername << ", it's your move." << std::endl;
-    this->drawBoard();
     std::cout << "X coordinate: ";
     std::cin >> x;
     std::cout << "Y coordinate: ";
